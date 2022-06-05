@@ -108,7 +108,7 @@ bool Pak::write_entry(const std::string &name, const void *data, std::size_t siz
     entries.push_back(entry);
 
     // Write the data
-    file.write(reinterpret_cast<char*>(&entry), sizeof(Entry));
+    file.write(reinterpret_cast<const char*>(data), size);
 
     return true;
 }
