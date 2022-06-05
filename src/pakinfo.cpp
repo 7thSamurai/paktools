@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
         std::string path = argv[i];
 
         try {
-            Pak pak(path, Pak::Open);
+            PakFile pak(path, PakFile::Open);
 
             // Find the total size of all the files
             unsigned int total_size = 0;

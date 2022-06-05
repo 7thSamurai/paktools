@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
         std::cout << "Extracting " << path << "..." << std::endl;
 
         try {
-            Pak pak(path, Pak::Open);
+            PakFile pak(path, PakFile::Open);
             std::set<std::string> dirs;
 
             // Create the base directory

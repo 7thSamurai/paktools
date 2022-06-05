@@ -2,14 +2,14 @@
 #include "common.hpp"
 #include <algorithm>
 
-Pak::Pak(const std::string &path, Mode mode) : mode_(mode) {
+PakFile::PakFile(const std::string &path, Mode mode) : mode_(mode) {
     if (mode == Mode::Open)
         open(path);
     else
         create(path);
 }
 
-Pak::~Pak() {
+PakFile::~PakFile() {
     // Only for saving
     if (mode_ != Mode::Create)
         return;
@@ -37,25 +37,25 @@ Pak::~Pak() {
     file.close();
 }
 
-std::size_t Pak::num_entries() const {
+std::size_t PakFile::num_entries() const {
     return entries.size();
 }
 
-std::string Pak::entry_name(std::size_t index) const {
+std::string PakFile::entry_name(std::size_t index) const {
     if (index >= entries.size())
         return "";
 
     return std::string(entries[index].name);
 }
 
-std::size_t Pak::entry_size(std::size_t index) const {
+std::size_t PakFile::entry_size(std::size_t index) const {
     if (index >= entries.size())
         return 0;
 
     return entries[index].size;
 }
 
-bool Pak::valid() {
+bool PakFile::valid() {
     if (mode_ != Mode::Open)
         return false;
 
@@ -79,7 +79,7 @@ bool Pak::valid() {
     return true;
 }
 
-std::unique_ptr<std::uint8_t[]> Pak::read_entry(std::size_t index) {
+std::unique_ptr<std::uint8_t[]> PakFile::read_entry(std::size_t index) {
     if (mode_ != Mode::Open || index >= entries.size())
         return nullptr;
 
@@ -92,7 +92,7 @@ std::unique_ptr<std::uint8_t[]> Pak::read_entry(std::size_t index) {
     return data;
 }
 
-bool Pak::write_entry(const std::string &name, const void *data, std::size_t size) {
+bool PakFile::write_entry(const std::string &name, const void *data, std::size_t size) {
     // Including null-terminator
     if (mode_ != Mode::Create || name.size() >= sizeof(Entry::name))
         return false;
@@ -113,7 +113,7 @@ bool Pak::write_entry(const std::string &name, const void *data, std::size_t siz
     return true;
 }
 
-void Pak::open(const std::string &path) {
+void PakFile::open(const std::string &path) {
     // Read the header
     file = std::fstream(path, std::ios::in | std::ios::binary);
     if (!file.good())
@@ -142,7 +142,7 @@ void Pak::open(const std::string &path) {
     }
 }
 
-void Pak::create(const std::string &path) {
+void PakFile::create(const std::string &path) {
     // Create the file
     file = std::fstream(path, std::ios::out | std::ios::binary);
     if (!file.good())

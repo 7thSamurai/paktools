@@ -5,7 +5,7 @@
 #include <memory>
 #include <fstream>
 
-class Pak
+class PakFile
 {
 public:
     enum Mode {
@@ -13,8 +13,8 @@ public:
         Create
     };
 
-    Pak(const std::string &path, Mode mode);
-    ~Pak();
+    PakFile(const std::string &path, Mode mode);
+    ~PakFile();
 
     std::size_t num_entries() const;
     std::string entry_name(std::size_t index) const;
