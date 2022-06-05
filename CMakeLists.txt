@@ -7,3 +7,6 @@ target_compile_features(pakinfo PRIVATE cxx_std_17)
 
 add_executable(unpak src/unpak.cpp src/pakfile.cpp)
 target_compile_features(unpak PRIVATE cxx_std_17)
+
+add_executable(pak src/pak.cpp src/pakfile.cpp)
+target_compile_features(pak PRIVATE cxx_std_17)
