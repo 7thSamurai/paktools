@@ -143,6 +143,11 @@ void Pak::open(const std::string &path) {
 }
 
 void Pak::create(const std::string &path) {
+    // Create the file
+    file = std::fstream(path, std::ios::out | std::ios::binary);
+    if (!file.good())
+        throw std::runtime_error("Unable to create file " + path);
+
     // Skip the space where the header goes (We'll fill it in later)
     file.seekg(sizeof(Header), std::ios::beg);
 }
